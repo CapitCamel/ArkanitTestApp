@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_users.*
+import kotlinx.android.synthetic.main.user_item.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -22,14 +23,17 @@ class UsersFragment : Fragment() {
         val apiService = ServiceBuilder.buildService()
         GlobalScope.launch(Dispatchers.Main) {
             val usersRequest = apiService.getUsers()
+            val postsRequest = apiService.getPosts()
             try {
                 val response = usersRequest.await()
+                val responsePost = postsRequest.await()
 
                 recyclerView.apply {
                     setHasFixedSize(true)
                     layoutManager = LinearLayoutManager(context)
-                    adapter = RvAdapter(response)
+                    adapter = RvAdapter(response, responsePost)
                 }
+
             }catch (e: Exception){
 
             }
