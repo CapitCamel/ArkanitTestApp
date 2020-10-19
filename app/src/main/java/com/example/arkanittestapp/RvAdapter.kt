@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.user_item.view.*
 
 
 
-class RvAdapter(val users: List<DataUsers>, val posts: List<DataPost>, private val activity: MainActivity, val listener: Listener): RecyclerView.Adapter<UsersViewHolder>() {
+class RvAdapter(val users: List<DataUsers>, val posts: List<DataPost>, val listener: Listener): RecyclerView.Adapter<UsersViewHolder>() {
 
     interface Listener{
         fun onItemClick(uri: String)
@@ -25,7 +25,7 @@ class RvAdapter(val users: List<DataUsers>, val posts: List<DataPost>, private v
     }
 
     override fun onBindViewHolder(holder: UsersViewHolder, position: Int) {
-        return holder.bind(users[position], posts, activity, listener)
+        return holder.bind(users[position], posts, listener)
     }
 
 }
@@ -50,7 +50,7 @@ class UsersViewHolder(itemView : View): RecyclerView.ViewHolder(itemView){
         }
     }
 
-    fun bind(user: DataUsers, responsePost: List<DataPost>, activity: MainActivity, listener: RvAdapter.Listener) = with(itemView) {
+    fun bind(user: DataUsers, responsePost: List<DataPost>, listener: RvAdapter.Listener) = with(itemView) {
         name.text = user.name
         email.text = user.email
         phone.text = user.phone

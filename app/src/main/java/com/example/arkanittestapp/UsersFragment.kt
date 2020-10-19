@@ -40,7 +40,7 @@ class UsersFragment : Fragment(), RvAdapter.Listener {
             val users = apiService.getUsers()
             val posts = apiService.getPosts()
 
-            recyclerView.adapter = RvAdapter(users, posts, MainActivity(), this@UsersFragment)
+            recyclerView.adapter = RvAdapter(users, posts, this@UsersFragment)
 
             state = UsersFragmentState.Loaded
         } catch (e: Exception) {
