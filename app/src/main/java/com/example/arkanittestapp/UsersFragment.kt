@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_users.*
 import kotlinx.android.synthetic.main.user_item.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class UsersFragment : Fragment() {
 
@@ -19,29 +21,23 @@ class UsersFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        return inflater.inflate(R.layout.fragment_users, container, false)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val apiService = ServiceBuilder.buildService()
-        GlobalScope.launch(Dispatchers.Main) {
-            val usersRequest = apiService.getUsers()
-            val postsRequest = apiService.getPosts()
+
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val response = usersRequest.await()
-                val responsePost = postsRequest.await()
+                val users = apiService.getUsers()
+                val posts = apiService.getPosts()
 
-                recyclerView.apply {
-                    setHasFixedSize(true)
-                    layoutManager = LinearLayoutManager(context)
-                    adapter = RvAdapter(response, responsePost)
+                withContext(Dispatchers.Main){
+                    recyclerView.adapter = RvAdapter(users, posts)
                 }
-
             }catch (e: Exception){
 
             }
         }
-
-
-        return inflater.inflate(R.layout.fragment_users, container, false)
     }
-
-
 }

@@ -8,8 +8,8 @@ import retrofit2.http.Query
 
 interface ApiService {
     @GET("users")
-    fun getUsers(): Deferred<List<DataUsers>>
+    suspend fun getUsers(): List<DataUsers>
 
     @GET("posts")
-    fun getPosts(): Deferred<List<DataPost>>
+    suspend fun getPosts(): List<DataPost>
 }
