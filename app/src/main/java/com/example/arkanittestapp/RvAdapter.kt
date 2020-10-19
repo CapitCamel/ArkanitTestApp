@@ -1,14 +1,12 @@
 package com.example.arkanittestapp
 
-import android.content.Intent
-import android.net.Uri
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.user_item.view.*
-import kotlinx.coroutines.Dispatchers.Main
+
 
 
 class RvAdapter(val users: List<DataUsers>, val posts: List<DataPost>, private val activity: MainActivity, val listener: Listener): RecyclerView.Adapter<UsersViewHolder>() {
@@ -50,13 +48,12 @@ class UsersViewHolder(itemView : View): RecyclerView.ViewHolder(itemView){
                 }
             }
         }
-
-
     }
 
     fun bind(user: DataUsers, responsePost: List<DataPost>, activity: MainActivity, listener: RvAdapter.Listener) = with(itemView) {
-        name.text = "Name: "+user.name
-        email.text = "E-mail: "+user.email
+        name.text = user.name
+        email.text = user.email
+        phone.text = user.phone
         rv_posts.adapter = PostsAdapter(responsePost, user.id)
 
         website.setOnClickListener {
